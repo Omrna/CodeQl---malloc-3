@@ -1,21 +1,41 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#define SECRET1 0x44
-#define SECRET2 0x55
-
-int main(int argc, char *argv[])
+void congratulateUser(const char *userName)
 {
-    char user_input[100];
-    int *secret;
-    int int_input;
-    int a, b, c, d; /* other variables, not used here.*/
+        char buffer[80];
+        /* BAD: this could overflow the buffer if the UserName is long */
+        sprintf(buffer, "Congratulations, %s!", userName);
+        
+        printf("%s\n", buffer);
+}
 
-  
-    char *str = malloc(strlen("hello"));
-    char *str2 = malloc(strlen("hello")+0);
-    char *str2 = malloc(strlen("hello")-1);
-    char *str3 = malloc(strlen("hello")+1);
-  
-    return 0;
+void branchingFactor()
+{
+   int factor = atoi(getenv("BRANCHING_FACTOR"));
+   /* GOOD: Prevent overflow by checking the input */
+   /*if (factor < 0 || factor > 1000) {
+       log("Factor out of range (%d)\n", factor);
+       return -1;
+   }
+   */
+   // This line can allocate too little memory if factor
+   // is very large.
+   char **root_node = (char **) malloc(factor * sizeof(char *));
+}
+
+int main() {
+   char aName[256] = {0};
+        
+   /* my first program in C */
+   printf("What is your name?\n");
+   
+   scanf("%s", aName);
+   
+   congratulateUser(aName);
+        
+   branchingFactor();
+   
+   return 0;
 }
